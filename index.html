@@ -381,40 +381,6 @@
           <div class="modal-body">
             <form id="editDoctorForm">
               <div class="mb-3">
-                <label for="imgUrl" class="form-label">Image URL</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="imgUrl"
-                  placeholder="Enter image URL"
-                />
-              </div>
-              <div class="mb-3">
-                <label for="fileInput" class="form-label">Upload Image</label>
-                <input
-                  type="file"
-                  class="form-control"
-                  id="fileInput"
-                  accept="image/*"
-                />
-                <img
-                  id="previewImage"
-                  src=""
-                  alt="Image Preview"
-                  class="img-fluid mt-3"
-                  style="max-height: 200px; display: none;"
-                />
-              </div>
-              <div class="mb-3">
-                <label for="doctorName" class="form-label">Name</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="doctorName"
-                  placeholder="Enter doctor's name"
-                />
-              </div>
-              <div class="mb-3">
                 <label for="startTime" class="form-label">Start Time</label>
                 <input type="time" class="form-control" id="startTime" />
               </div>
@@ -538,12 +504,8 @@
       // Modalni ochish va ma'lumotlarni yuklash
       function openEditModal(index) {
         const item = data[index];
-        document.getElementById("imgUrl").value = item.img;
-        document.getElementById("doctorName").value = item.fio;
         document.getElementById("startTime").value = item.startTime;
         document.getElementById("endTime").value = item.endTime;
-        document.getElementById("previewImage").src = item.img; // Rasmni ko'rsatish
-        document.getElementById("previewImage").style.display = "block"; // Rasmni ko'rsatish
         editIndex = index; // Tanlangan indeksni saqlash
         editModal.show(); // Modalni ochish
       }
@@ -552,8 +514,6 @@
       document.getElementById("saveChanges").addEventListener("click", () => {
         if (editIndex >= 0) {
           const updatedItem = {
-            img: document.getElementById("imgUrl").value,
-            fio: document.getElementById("doctorName").value,
             startTime: document.getElementById("startTime").value,
             endTime: document.getElementById("endTime").value,
             status: data[editIndex].status, // Statusni o'zgartirmaymiz
@@ -564,23 +524,6 @@
           editModal.hide(); // Jadvalni yopish
         }
       });
-
-      // Rasmni oldindan ko'rish uchun fayl yuklash funksiyasi
-      document
-        .getElementById("fileInput")
-        .addEventListener("change", function (event) {
-          const file = event.target.files[0];
-          if (file) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-              const img = document.getElementById("previewImage");
-              img.src = e.target.result;
-              img.style.display = "block"; // Rasmni ko'rsatish
-              document.getElementById("imgUrl").value = e.target.result; // Input qiymatini yangilash
-            };
-            reader.readAsDataURL(file);
-          }
-        });
 
       // Jadvalni yangilash
       function updateTable() {
@@ -605,8 +548,8 @@
         } else {
           actionsHTML = `
           <td class="action-buttons">
-            <button class="btn btn-warning edit-button" onclick="openEditModal(${index})">Edit</button>
-            <button class="btn btn-danger delete-button" onclick="deleteRow(${index})">Delete</button>
+            <button class="btn btn-warning edit-button" onclick="openEditModal(${index})">Change time</button>
+            <button class="btn btn-danger delete-button" onclick="deleteRow(${index})">Cancel</button>
           </td>`;
         }
 
